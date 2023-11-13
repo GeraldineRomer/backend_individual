@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const cors = require("cors");
+const cors = require("cors");
 const app = express();
 
 const { API_VERSION } = require("./constants");
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended:true })); */
 
 //evitar bloqueos con el navegador cuando se trabaje frontend y backend al tiempo
-//app.use(cors());
+app.use(cors());
 console.log(`api/${API_VERSION}`);
 // Cargamos las rutas
 app.use(`/api/${API_VERSION}`, authRoutes);

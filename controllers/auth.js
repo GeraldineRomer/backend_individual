@@ -6,7 +6,7 @@ const jwt = require("../utils/jwt");
 const register = async (req, res) => {
     const { 
             firstname, 
-            lastnanme, 
+            lastname, 
             email, 
             password, 
             country, 
@@ -19,6 +19,16 @@ const register = async (req, res) => {
     if (!email) return res.status(400).send({ msg: "El email es requerido "});
     if (!password) return res.status(400).send({ msg: "La contraseña es requerida "});
     if (!document) return res.status(400).send({ msg: "El documento es requerida "});
+/* 
+    const response = await axios.get("https://www.datos.gov.co/resource/xdk5-pm3f.json");
+    const data = response.data;
+
+    const Mun = data.filter(registro => registro.municipio === municipio);
+    const Dep = data.filter(registro => registro.departamento === departamento);
+
+    if (Dep.length === 0) return res.status(400).send({ msg: "El Departamento no se encuentra" });
+
+    if (Mun.length === 0) return res.status(400).send({ msg: "El Munucipio no se encuentra" }); */
 
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
@@ -27,7 +37,7 @@ const register = async (req, res) => {
 
     const user = new User({
         firstname,
-        lastnanme,
+        lastname,
         country,
         department,
         municipality,
