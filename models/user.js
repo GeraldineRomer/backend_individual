@@ -39,7 +39,8 @@ const UserSchema = mongoose.Schema({
     },
     avatar: String,
     role: String,
-    active: Boolean
+    active: Boolean,
+    verifyCode: String,
 });
 
 module.exports = mongoose.model("User",UserSchema);
