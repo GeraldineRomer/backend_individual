@@ -6,5 +6,6 @@ const api = express.Router();
 api.post("/register", AuthController.register);
 api.post("/auth/login", AuthController.login);
 api.post("/auth/refresh_access_token", AuthController.refreshAccessToken);
+api.post("/auth/verifycode", AuthController.verifyCode);
 
 module.exports = api;

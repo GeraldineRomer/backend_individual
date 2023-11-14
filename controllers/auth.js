@@ -109,8 +109,32 @@ async function refreshAccessToken(req, res){
     }
 };
 
+const verifyCode = async (req, res) => {
+    const { verificationCode } = req.body;
+    console.log("code en el back - " + verificationCode);
+    try {
+        // Encuentra al usuario por el código de verificación
+        const user = await User.findOne({ verifyCode: verificationCode });
+        console.log("user -> " + user);
+
+        if (!user) {
+            return res.status(404).send({ msg: "Código de verificación incorrecto" });
+        }
+
+        // Si el código es correcto, actualiza el estado del usuario a activo
+        await User.updateOne({ verifyCode: verificationCode }, { $set: { active: true } });
+
+        return res.status(200).send({ success: true, msg: "Cuenta verificada con éxito" });
+    } catch (error) {
+        console.error("Error al verificar el código: ", error);
+        return res.status(500).send({ msg: "Error al verificar el código" });
+    }
+};
+
+
 module.exports = {
     register,
     login,
-    refreshAccessToken
+    refreshAccessToken,
+    verifyCode
 };
