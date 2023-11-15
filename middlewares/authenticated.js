@@ -13,9 +13,11 @@ const ensureAuth = (req,res,next) => {
         const payload = jwt.decoded(token);
         const {exp} = payload;
         const currentData = new Date().getTime();
+
         if (exp <= currentData) {
             return res.status(400).send({msg: "El token ha expirado"});
         }
+        
         req.user = payload;
         next();
     }catch (error){

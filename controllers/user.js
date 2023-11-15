@@ -54,7 +54,7 @@ async function updateUser(req, res) {
             delete userData.password;
         }
         if (req.avatar) {
-            user.avatar = req.avatar;
+            userData.avatar = req.avatar;
         }
         await User.findByIdAndUpdate({ _id: id }, userData);
         res.status(200).send({ msg: "Actualizacion correcta" });
