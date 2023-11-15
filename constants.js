@@ -11,7 +11,7 @@ const TWILIO_ACCOUNT_SID = 'AC14eef90a3265c9274e55cc115c42c92b';
 const TWILIO_AUTH_TOKEN = '824cf48aa0348402f8df4aeac4dcf039';
 
 const MAILGUN_DOMAIN = 'sandboxa1026c137bf14ae184882e5d34efb33e.mailgun.org';
-const MAILGUN_API_KEY = 'f753dfbac1082d6a6082bef23236f173-1c7e8847-f7c05ff4';
+const MAILGUN_API_KEY = '05aa54042d388d7928c0978737d911e1-1c7e8847-f89a6010';
 
 module.exports = {
     DB_HOST,

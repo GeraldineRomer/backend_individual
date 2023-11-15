@@ -19,15 +19,44 @@ async function createUser(req, res) {
 }
 
 async function getUsers(req, res) {
-    const { active } = req.query;
-    let response = null;
+    const { active, page = 1, limit = 5 } = req.query;
 
-    if (active === undefined) {
-        response = await User.find();
-    } else {
-        response = await User.find({ active });
+    try {
+        let response = null;
+        let query = {};
+
+        if (active !== undefined) {
+            query.active = active;
+        }
+
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+
+        const results = {};
+
+        if (endIndex < (await User.countDocuments().exec())) {
+            results.next = {
+                page: parseInt(page) + 1,
+                limit: parseInt(limit)
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: parseInt(page) - 1,
+                limit: parseInt(limit)
+            };
+        }
+
+        response = await User.find(query).limit(limit).skip(startIndex).exec();
+        results.results = response;
+        console.log("results.next en getusers back -> "+ results.next);
+
+        res.status(200).send({ results: results.results, next: results.next });
+
+    } catch (error) {
+        res.status(500).send({ message: "Error al obtener usuarios", error: error.message });
     }
-    res.status(200).send(response);
 }
 
 async function getMe(req, res) {
