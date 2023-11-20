@@ -59,6 +59,18 @@ async function getUsers(req, res) {
     }
 }
 
+async function getUsersComplete(req, res) {
+    const { active } = req.query;
+    let response = null;
+
+    if (active === undefined) {
+        response = await User.find();
+    } else {
+        response = await User.find({ active });
+    }
+    res.status(200).send(response);
+}
+
 async function getMe(req, res) {
     const { user_id } = req.user;
 
@@ -108,4 +120,5 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    getUsersComplete
 };
