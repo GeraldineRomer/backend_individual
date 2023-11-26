@@ -1,30 +1,57 @@
-const { MAILGUN_DOMAIN } = require('../constants');
-const { MAILGUN_API_KEY } = require('../constants');
+const { NODEMAILER_USER } = require('../constants');
+const { NODEMAILER_PASSWORD } = require('../constants');
+const nodemailer = require("nodemailer");
 
-const formData = require('form-data');
-const Mailgun = require('mailgun.js');
+const sendVerificationEmail = async (verifyCode) => {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: NODEMAILER_USER,
+                pass: NODEMAILER_PASSWORD
+            }
+        });
+        // send mail with defined transport object
+        const email = await transporter.sendMail({
+            from: '"Bienvenido" <booksandbooks@gmail.com>', // sender address
+            to: NODEMAILER_USER, // list of receivers
+            subject: "Bienvenido a Books&Books", // Subject line
+            html: `Te has registrado en Books&Books, este es tu código de verificación: ${verifyCode}`, // html body
+        });
 
-const mailgun = new Mailgun(formData);
-const mg = mailgun.client({ username: 'api', key: MAILGUN_API_KEY });
+        return email; // Retorna el objeto del correo electrónico enviado
+    } catch (error) {
+        throw new Error('Error al enviar el correo electrónico: ' + error);
+    }
+};
 
-const email = (verifyCode) => {
-    const messageData = {
-        from: "BooksandBooks <booksandbooks@gmail.com>",
-        to: "geraldine.rome0104@gmail.com",
-        subject: 'Verificación',
-        text: `Te has registrado en Books&Books, este es tu código de verificación: ${verifyCode}`
-    };
-
-    mg.messages.create(MAILGUN_DOMAIN, messageData)
-        .then((res) => {
-        console.log("respuesta dentro del emailer", res);
-        })
-        .catch((err) => {
-        console.error("error dentro del emailer", err);
-        console.error("Detalles del error:", err.details);
-    });
+const emailChangePassword = async () => {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: NODEMAILER_USER,
+                pass: NODEMAILER_PASSWORD
+            }
+        });
+        // send mail with defined transport object
+        const email = await transporter.sendMail({
+            from: '"Bienvenido" <booksandbooks@gmail.com>', // sender address
+            to: NODEMAILER_USER, // list of receivers
+            subject: "Cambio de contraseña", // Subject line
+            html: `Para cambiar tu contraseña haz click <a href="http://localhost:3000/changepassword">aquí</a>`, // html body
+        });
+        return email; // Retorna el objeto del correo electrónico enviado
+    } catch (error) {
+        throw new Error('Error al enviar el correo electrónico: ' + error);
+    }
 };
 
 module.exports = {
-    email
+    sendVerificationEmail,
+    emailChangePassword
 };

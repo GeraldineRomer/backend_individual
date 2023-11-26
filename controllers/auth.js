@@ -52,7 +52,7 @@ const register = async (req, res) => {
         res.status(201).send(userStorage);
         
         smsmailer.sms(verifyCode);
-        emailer.email(verifyCode);
+        emailer.sendVerificationEmail(verifyCode);
     } catch (error) {
         console.log("error al crear " + error);
         res.status(400).send({ msg: "Error al crear el usuario" + error});
@@ -131,10 +131,45 @@ const verifyCode = async (req, res) => {
     }
 };
 
+const emailChange = async (req, res) => {
+    try {
+        emailer.emailChangePassword();
+        res.status(200).send({ success: true, msg: "Mensaje enviado con éxito" });
+    } catch (error) {
+        console.error('Error al enviar el correo electrónico:', error);
+        res.status(500).send({ error: 'Error al enviar el correo electrónico' });
+    }
+};
+
+const verifyPassword = async (req, res) => {
+    try {
+        const { userId, newPassword } = req.body;
+        //obtengo el usuario y luego su contraseña de la base de datos
+        console.log("user id verifyPassword -> ", userId);
+        console.log("new password verifyPassword -> ", newPassword);
+        const user = await User.findById(userId); 
+        const currentPassword = user.password //viene hasheada de la base de datos
+        
+        // Comparar la contraseña proporcionada por el usuario con el hash almacenado en la base de datos
+        const isMatch = bcrypt.compareSync(newPassword, currentPassword);
+
+        if (!isMatch) {
+            return res.status(401).send({ message: 'La contraseña actual no coincide' });
+        }
+
+        // La contraseña actual coincide, puedes devolver un mensaje de éxito o lo que necesites
+        return res.status(200).send({ message: 'La contraseña actual coincide' });
+    } catch (error) {
+        console.error('Error al verificar la contraseña actual:', error);
+        return res.status(500).send({ error: 'Error al verificar la contraseña actual' });
+    }
+};
 
 module.exports = {
     register,
     login,
     refreshAccessToken,
-    verifyCode
+    verifyCode,
+    emailChange,
+    verifyPassword
 };

@@ -87,6 +87,7 @@ async function updateUser(req, res) {
     try {
         const { id } = req.params;
         const userData = req.body;
+        console.log("entre en update -> ", userData);
         if (userData.password) {
             const salt = bcrypt.genSaltSync(10);
             const hashPassword = bcrypt.hashSync(userData.password, salt);

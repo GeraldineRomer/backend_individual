@@ -8,10 +8,10 @@ const IP_SERVER = 'localhost';
 const JWT_SECRET_KEY = 'acceso-sistema-2023';
 
 const TWILIO_ACCOUNT_SID = 'AC14eef90a3265c9274e55cc115c42c92b';
-const TWILIO_AUTH_TOKEN = 'f043c8dc6e87f84f409d141183c065cb';
+const TWILIO_AUTH_TOKEN = '11843a8f43c5c416ed6de7bb810c7144';
 
-const MAILGUN_DOMAIN = 'sandboxa1026c137bf14ae184882e5d34efb33e.mailgun.org';
-const MAILGUN_API_KEY = '05aa54042d388d7928c0978737d911e1-1c7e8847-f89a6010';
+const NODEMAILER_USER = 'geraldine.rome0104@gmail.com';
+const NODEMAILER_PASSWORD = 'lziu qbmv gqci aumy';
 
 module.exports = {
     DB_HOST,
@@ -23,6 +23,6 @@ module.exports = {
     JWT_SECRET_KEY, 
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
-    MAILGUN_DOMAIN,
-    MAILGUN_API_KEY
+    NODEMAILER_USER,
+    NODEMAILER_PASSWORD
 };
