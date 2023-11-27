@@ -1,13 +1,14 @@
 const Category = require("../models/category");
 
 async function createCategory(req, res) {
+    console.log("Entre en createCategory del back ");
     try {
-        const { name, description, active } = req.body;
-
+        const { name, active } = req.body;
+        console.log("name en back de createCategory -> ", name);
+        console.log("active en back de createCategory -> ", active);
         // Crear un nuevo documento de Category con los datos proporcionados
         const category = new Category({
             name,
-            description,
             active,
         });
 

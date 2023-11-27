@@ -1,24 +1,36 @@
 const Book = require("../models/book");
+const Category = require("../models/category");
 
 async function createBook(req, res) {
+    console.log("entre en create book en back");
     try {
-        const { title, author, description, categoryId, status, images } = req.body;
-
+        const { title, author, price, description, category, status } = req.body;
+        console.log('Title:', title);
+        console.log('Author:', author);
+        console.log('Price:', price);
+        console.log('Description:', description);
+        console.log('Category ID:', category);
+        console.log('Status:', status);
         // Verificar si la categoría existe antes de crear el libro
-        const category = await Category.findById(categoryId);
-        if (!category) {
+        const category_ = await Category.findById(category);
+        console.log("category en el back después de buscar -> ", category_);
+        if (!category_) {
             return res.status(404).send({ msg: "La categoría especificada no existe" });
         }
+
+        console.log("obtener images en back -> ", req.files);
+        const images = req.files.map(file => file.filename);
+        console.log("obtener images en back -> ", images);
 
         // Crear un nuevo documento de Book con los datos proporcionados
         const book = new Book({
             title,
             author,
+            price,
             description,
-            category: categoryId, // Asignar la categoría al libro usando el ID de la categoría
+            category: category_, // Asignar la categoría al libro usando el ID de la categoría
             status,
             images, // Aquí se pueden pasar las URLs de las imágenes
-            active: false, // Si se requiere que el libro se cree como inactivo por defecto
         });
 
         // Guardar el libro en la base de datos

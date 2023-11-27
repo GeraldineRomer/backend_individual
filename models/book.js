@@ -9,6 +9,10 @@ const BookSchema = mongoose.Schema({
         type: String,
         require: true,
     },
+    price: {
+        type: Number,
+        require: true,
+    },
     description: {
         type: String,
         require: true,
@@ -18,9 +22,8 @@ const BookSchema = mongoose.Schema({
         ref: 'Category',
         require: true,
     },
-    active: Boolean,
     status: {
-        type: String,
+        type: Boolean,
         require: true,
     },
     images: [{ type: String }, { type: String }, { type: String }] 
