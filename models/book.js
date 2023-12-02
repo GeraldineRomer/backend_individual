@@ -26,7 +26,8 @@ const BookSchema = mongoose.Schema({
         type: Boolean,
         require: true,
     },
-    images: [{ type: String }, { type: String }, { type: String }] 
+    active: Boolean,
+    images: [{ type: String }, { type: String }, { type: String }] ,
 });
 
 module.exports = mongoose.model("Book",BookSchema);
