@@ -35,7 +35,7 @@ async function createBook(req, res) {
             category: category_, // Asignar la categoría al libro usando el ID de la categoría
             status,
             images, // Aquí se pueden pasar las URLs de las imágenes
-            active
+            active: false
         });
 
         // Guardar el libro en la base de datos
@@ -49,7 +49,7 @@ async function createBook(req, res) {
 
 
 async function getBooks(req, res) {
-    const { active, category, page = 1, limit = 5 } = req.query;
+    const { active, category, page = 1, limit = 10 } = req.query;
 
     try {
         let query = {};
@@ -147,13 +147,14 @@ async function getBook(req, res) {
 }
 
 async function updateBook(req, res) {
+    console.log("entré en updateBook en el back");
     try {
         const { id } = req.params;
+        console.log("id en updateBook en back ", id);
         const bookData = req.body;
-
+        console.log("bookData en back ", bookData);
         // Actualizar el libro con los datos proporcionados
-        await Book.findByIdAndUpdate(id, bookData);
-
+        await Book.findByIdAndUpdate({ _id: id }, bookData);
         res.status(200).send({ msg: "Actualización correcta" });
     } catch (error) {
         res.status(400).send({ msg: "Error al actualizar el libro", error: error.message });
