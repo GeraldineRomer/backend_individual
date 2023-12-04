@@ -33,7 +33,7 @@ async function createBook(req, res) {
             price,
             description,
             category: category_, // Asignar la categoría al libro usando el ID de la categoría
-            status,
+            status: true,
             images, // Aquí se pueden pasar las URLs de las imágenes
             active: false
         });
